@@ -1,0 +1,4 @@
+var ships = [
+    "arrow",
+    "carrack"
+];
