@@ -3,9 +3,10 @@ var winston = require('winston');
 var auth = require('./auth.json');
 var botcmds = require('./botcommands');
 var NovaDbConnector = require('./novadbconnector');
-var ShipData = require('./shipdata');
-var UserData = require('./userdata');
-var SquadronData = require('./squadrondata');
+var Ship = require('./ship');
+var User = require('./user');
+var Fleet = require('./fleet');
+var Notification = require('./notification');
 
 // Define logger
 var logger = winston.createLogger({
@@ -22,7 +23,14 @@ var bot = new discord.Client({
 });
 
 // Initialize DB Connector
-var dbconn = new NovaDbConnector('./novadb.sqlite3');
+var dbconn = new NovaDbConnector('./novadb.json');
+// Initialize commands
+// Commands come as objects. If commands offer persistence
+// they are objects of a specific class. If no persistence,
+// they are simple objects of class Object.
+var ship = new Ship(dbconn);
+var user = new User(dbconn);
+var notification = new Notification(dbconn);
 
 bot.on('ready', function(evt) {
     logger.info('Connected');
@@ -30,8 +38,6 @@ bot.on('ready', function(evt) {
     logger.info(bot.username + ' - (' + bot.id + ')');
 });
 bot.on('message', function(user, userID, channelID, message, evt){
-    // Our bot needs to know if it will execute a command
-    // It will listen for messages that will start with `!`
     if (message.substring(0, 1) == '!'){
         let args = message.substring(1).split(' ');
         let cmd = args[0];
