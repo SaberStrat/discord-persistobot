@@ -1,8 +1,11 @@
 var discord = require('discord.io');
 var winston = require('winston');
 var auth = require('./auth.json');
-var shipdbClient = require('./shipdb.js');
-var sc = require('./sc.js');
+var botcmds = require('./botcommands');
+var NovaDbConnector = require('./novadbconnector');
+var ShipData = require('./shipdata');
+var UserData = require('./userdata');
+var SquadronData = require('./squadrondata');
 
 // Define logger
 var logger = winston.createLogger({
@@ -17,6 +20,10 @@ var bot = new discord.Client({
     token: auth.token,
     autorun: true
 });
+
+// Initialize DB Connector
+var dbconn = new NovaDbConnector('./novadb.sqlite3');
+
 bot.on('ready', function(evt) {
     logger.info('Connected');
     logger.info('Logged in as: ');
@@ -29,23 +36,15 @@ bot.on('message', function(user, userID, channelID, message, evt){
         let args = message.substring(1).split(' ');
         let cmd = args[0];
         args = args.splice(1);
-        switch(cmd) {
-            // !ping
-            case 'ping':
-            bot.sendMessage({
-                to: channelID,
-                message: 'Pong!'
-            });
-            break;
-            // !hello
-            case 'hello':
-            bot.sendMessage({
-                to: channelID,
-                message: 'Hello, ' + user
-            });
-        }
+        if(botcmds.keys().includes(cmd))
+                botcmds[cmd].exec(args);
+        else
+                bot.sendMessage({
+                        to: channelID,
+                        message: "Unknown command: "+cmd+"."
+                });
     } else if(message.substring(0, 1) == '+'){
-        let args = message.substring(1);
-        shipdbClient.addShipToFleet(args, userID);
+        let arg = message.substring(1);
+        botcmds.ship.add(arg, user, logger);
     }
 });
