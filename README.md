@@ -1,4 +1,4 @@
-# discord-novabot
+# discord-persistobot
 
 ### Intro
-This is a bot for the Discord channel of Nova.
+This is a bot for Discord.

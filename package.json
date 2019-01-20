@@ -1,7 +1,7 @@
 {
     "name": "discord-persistobot",
     "version": "2.0.0",
-    "description": "A bot for Nova",
+    "description": "This is a bot for Discord.",
     "main": "bot.js",
     "author": "MaximizedAction",
     "dependencies": {
