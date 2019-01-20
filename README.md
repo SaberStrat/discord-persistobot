@@ -1,4 +1,4 @@
-# discord-persistobot
+# discord-novabot
 
 ### Intro
-This is my first Discord bot. Please be gentle.
+This is a bot for the Discord channel of Nova.

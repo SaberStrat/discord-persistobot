@@ -1,11 +1,12 @@
 {
-    "name": "persistobot",
-    "version": "1.0.0",
-    "description": "A bot that persists.",
+    "name": "discord-persistobot",
+    "version": "2.0.0",
+    "description": "A bot for Nova",
     "main": "bot.js",
     "author": "MaximizedAction",
     "dependencies": {
         "discord.io": "https://github.com/woor/discord.io/tarball/gateway_v6",
+        "discord.js": "^11.4.2",
         "winston": "^3.1.0"
     }
 }
